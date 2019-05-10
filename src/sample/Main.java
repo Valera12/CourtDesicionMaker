@@ -14,7 +14,8 @@ public class Main extends Application {
         mainWindow = primaryStage;
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Court Decision Maker");
-        primaryStage.setScene(new Scene(root, 450, 200));
+        primaryStage.setScene(new Scene(root, 650, 200));
+        primaryStage.setResizable(false);
         primaryStage.show();
     }
 

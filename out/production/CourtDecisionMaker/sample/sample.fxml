@@ -13,12 +13,9 @@
             <TextArea fx:id="loggerTextArea" prefHeight="150.0" prefWidth="601.0" />
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
                <children>
-                  <Button fx:id="fileButton" mnemonicParsing="false" onAction="#chooseTableFile" prefWidth="100.0" text="Choose Table" />
-                  <Button fx:id="templateButton" mnemonicParsing="false" onAction="#chooseTemplateFile" prefWidth="100.0" text="Choose Template" />
-                  <Button fx:id="formButton" mnemonicParsing="false" onAction="#formDecision" prefWidth="100.0" text="Form" />
-                  <Button fx:id="openTemplateButton" mnemonicParsing="false" onAction="#openTemplate" prefWidth="100.0" text="Open Template" />
-                  <Button fx:id="openTsbleButton" mnemonicParsing="false" onAction="#openTable" prefWidth="100.0" text="Open Table" />
-
+                  <Button fx:id="fileButton" mnemonicParsing="false" onAction="#chooseTableFile" prefWidth="80.0" text="File" />
+                  <Button fx:id="templateButton" mnemonicParsing="false" onAction="#chooseTemplateFile" prefWidth="80.0" text="Template" />
+                  <Button fx:id="formButton" mnemonicParsing="false" onAction="#formDecision" prefWidth="80.0" text="Form" />
                </children>
             </HBox>
          </children>

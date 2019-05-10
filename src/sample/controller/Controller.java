@@ -1,33 +1,27 @@
 package sample.controller;
 
+import fr.opensagres.xdocreport.core.XDocReportException;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.text.TextFlow;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextArea;
 import javafx.stage.FileChooser;
 import sample.Main;
+import sample.model.DataContainer;
 
+import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Controller {
     @FXML
-    private Button fileButton;
-
-    @FXML
-    private Button templateButton;
-
-    @FXML
-    private Button formButton;
-
-    @FXML
-    private TextFlow loggerTextFlow;
-
-    @FXML
     private TextArea loggerTextArea;
 
-    private File tableFile;
-    private File templateFile;
+    private File tableFile = new File("testTable.xlsx");
+    private File templateFile = new File("wordWorker.docx");
+    private DataContainer dataContainer = new DataContainer();
 
     @FXML
     private void chooseTableFile () {
@@ -54,11 +48,11 @@ public class Controller {
             loggerTextArea.appendText("file error\n");
             return;
         }
-        loggerTextArea.appendText("->File choose: " + tableFile.getAbsolutePath() + "\n");
+        loggerTextArea.appendText("->File choose: " + templateFile.getAbsolutePath() + "\n");
     }
 
     @FXML
-    private void formDecision () {
+    private void formDecision () throws IOException, XDocReportException {
         if (tableFile == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setContentText("CHOOSE TABLE FILE PLEASE!");
@@ -74,20 +68,22 @@ public class Controller {
             loggerTextArea.appendText("->template file error\n");
             return;
         }
-        List<String> choices = new ArrayList<>();
-        final String ALL_IN_ONE_FILE = "all in one file";
-        final String ALL_IN_DIFFERENT_FILES = "all in different files";
-        choices.add(ALL_IN_ONE_FILE);
-        choices.add(ALL_IN_DIFFERENT_FILES);
-        Dialog dialog = new ChoiceDialog<>(choices.get(0), choices);
-        dialog.showAndWait();
-        switch (dialog.getResult().toString()) {
-            case ALL_IN_ONE_FILE:
-                loggerTextArea.appendText("->Choose mode : all in one file\n");
-                break;
-            case ALL_IN_DIFFERENT_FILES:
-                loggerTextArea.appendText("->Choose mode : all in different files\n");
-                break;
+        ExcelParser.parse(tableFile, dataContainer);
+        WordWorker.parseWord(dataContainer, templateFile);
+    }
+
+
+    @FXML
+    private void openTemplate() {
+        Desktop desktop =  null;
+        if (Desktop.isDesktopSupported()){
+            desktop = Desktop.getDesktop();
+        }
+
+        try {
+            desktop.open(new File(String.valueOf(templateFile)));
+        }catch (IOException ioe){
+            ioe.printStackTrace();
         }
     }
 
@@ -95,4 +91,19 @@ public class Controller {
     private void initialize () {
         loggerTextArea.setEditable(false);
     }
+
+    @FXML
+    private void openTable(){
+        Desktop desktop =  null;
+        if (Desktop.isDesktopSupported()){
+            desktop = Desktop.getDesktop();
+        }
+
+        try {
+            desktop.open(new File(String.valueOf(tableFile)));
+        }catch (IOException ioe){
+            ioe.printStackTrace();
+        }
+    }
+
 }
